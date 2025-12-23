@@ -3,864 +3,806 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brawl Stars - Эпические битвы в реальном времени</title>
+    <title>Clash Royale - стратегии и геймплей</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         :root {
-            --primary-color: #ff6600;
-            --secondary-color: #00aaff;
-            --dark-color: #1a1a2e;
+            --primary-color: #1a73e8;
+            --secondary-color: #ff5722;
+            --dark-color: #0a1128;
             --light-color: #f8f9fa;
-            --accent-color: #ffcc00;
-            --text-color: #333;
-            --text-light: #fff;
-            --card-bg: #ffffff;
-            --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s ease;
-        }
-
-        html {
-            scroll-behavior: smooth;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --gray-color: #6c757d;
         }
 
         body {
-            background-color: var(--light-color);
-            color: var(--text-color);
+            background-color: #f0f2f5;
+            color: #333;
             line-height: 1.6;
-            overflow-x: hidden;
         }
 
-        /* Навигация */
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
+        .container {
             width: 100%;
-            background-color: rgba(26, 26, 46, 0.95);
-            padding: 1rem 0;
-            z-index: 1000;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
         }
 
-        .nav-container {
+        /* Шапка */
+        header {
+            background: linear-gradient(135deg, var(--dark-color) 0%, #1e3c72 100%);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
         }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: 10px;
-            color: var(--accent-color);
-            font-weight: 900;
-            font-size: 1.8rem;
-            text-decoration: none;
+            gap: 15px;
         }
 
         .logo i {
-            color: var(--primary-color);
-            font-size: 2rem;
+            font-size: 2.5rem;
+            color: var(--secondary-color);
         }
 
-        .nav-links {
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .logo span {
+            color: var(--secondary-color);
+        }
+
+        nav ul {
             display: flex;
             list-style: none;
-            gap: 2rem;
+            gap: 25px;
         }
 
-        .nav-links a {
-            color: var(--text-light);
+        nav a {
+            color: white;
             text-decoration: none;
-            font-weight: 500;
+            font-weight: 600;
             font-size: 1.1rem;
-            transition: var(--transition);
-            padding: 0.5rem 0;
+            transition: color 0.3s;
+            padding: 5px 0;
             position: relative;
         }
 
-        .nav-links a:hover {
-            color: var(--primary-color);
+        nav a:hover {
+            color: var(--secondary-color);
         }
 
-        .nav-links a::after {
+        nav a.active {
+            color: var(--secondary-color);
+        }
+
+        nav a.active::after {
             content: '';
             position: absolute;
             bottom: 0;
             left: 0;
-            width: 0;
-            height: 3px;
-            background-color: var(--primary-color);
-            transition: var(--transition);
-        }
-
-        .nav-links a:hover::after {
             width: 100%;
-        }
-
-        .download-btn {
-            background-color: var(--primary-color);
-            color: var(--text-light);
-            padding: 0.8rem 1.8rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 700;
-            transition: var(--transition);
-            border: none;
-            cursor: pointer;
-            font-size: 1.1rem;
-        }
-
-        .download-btn:hover {
-            background-color: var(--accent-color);
-            color: var(--dark-color);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(255, 102, 0, 0.3);
+            height: 3px;
+            background-color: var(--secondary-color);
+            border-radius: 3px;
         }
 
         .mobile-menu-btn {
             display: none;
             background: none;
             border: none;
-            color: var(--text-light);
-            font-size: 1.8rem;
+            color: white;
+            font-size: 1.5rem;
             cursor: pointer;
         }
 
-        /* Основные секции */
-        section {
-            min-height: 100vh;
-            padding: 100px 2rem 2rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        /* Герой-баннер */
+        /* Основной контент */
         .hero {
-            background: linear-gradient(rgba(26, 26, 46, 0.85), rgba(26, 26, 46, 0.9)), url('https://images.unsplash.com/photo-1511512578047-dfb367046420?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80');
+            background: linear-gradient(rgba(10, 17, 40, 0.85), rgba(10, 17, 40, 0.9)), url('https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80');
             background-size: cover;
             background-position: center;
-            color: var(--text-light);
+            color: white;
+            padding: 80px 0;
             text-align: center;
+            margin-bottom: 40px;
         }
 
-        .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1.5rem;
-            color: var(--accent-color);
-            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+        .hero h2 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
         .hero p {
-            font-size: 1.4rem;
-            margin-bottom: 2.5rem;
-            opacity: 0.9;
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            color: #e0e0e0;
         }
 
-        .hero-btns {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .watch-trailer {
-            background-color: transparent;
-            color: var(--text-light);
-            border: 2px solid var(--secondary-color);
-            padding: 0.8rem 1.8rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 700;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .watch-trailer:hover {
+        .btn {
+            display: inline-block;
             background-color: var(--secondary-color);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 170, 255, 0.3);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
         }
 
-        /* Секция с персонажами */
+        .btn:hover {
+            background-color: #e64a19;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
         .section-title {
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 40px;
+            position: relative;
+            padding-bottom: 15px;
         }
 
         .section-title h2 {
-            font-size: 2.8rem;
+            font-size: 2.5rem;
             color: var(--dark-color);
-            margin-bottom: 1rem;
-            position: relative;
-            display: inline-block;
         }
 
-        .section-title h2::after {
+        .section-title::after {
             content: '';
             position: absolute;
-            bottom: -10px;
+            bottom: 0;
             left: 50%;
             transform: translateX(-50%);
             width: 80px;
             height: 4px;
-            background-color: var(--primary-color);
+            background-color: var(--secondary-color);
             border-radius: 2px;
         }
 
-        .section-title p {
-            font-size: 1.2rem;
-            color: #666;
-            max-width: 700px;
-            margin: 0 auto;
+        /* Карты */
+        .cards-section {
+            padding: 60px 0;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 40px;
         }
 
-        .brawlers-grid {
+        .cards-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 2rem;
+            gap: 25px;
         }
 
-        .brawler-card {
-            background-color: var(--card-bg);
-            border-radius: 15px;
+        .card-item {
+            background-color: white;
+            border-radius: 10px;
             overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-top: 5px solid var(--primary-color);
         }
 
-        .brawler-card:hover {
+        .card-item:hover {
             transform: translateY(-10px);
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
         }
 
-        .brawler-img {
-            height: 220px;
-            background-size: cover;
-            background-position: center;
+        .card-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px;
+            text-align: center;
         }
 
-        .brawler-info {
-            padding: 1.5rem;
+        .card-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
         }
 
-        .brawler-info h3 {
-            font-size: 1.6rem;
-            margin-bottom: 0.5rem;
-            color: var(--dark-color);
-        }
-
-        .brawler-type {
-            display: inline-block;
-            background-color: var(--secondary-color);
-            color: var(--text-light);
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
+        .card-header .elixir {
             font-size: 0.9rem;
-            font-weight: 500;
-            margin-bottom: 1rem;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 3px 10px;
+            border-radius: 20px;
+            display: inline-block;
         }
 
-        .brawler-description {
-            color: #666;
-            margin-bottom: 1.5rem;
+        .card-body {
+            padding: 20px;
         }
 
-        .brawler-stats {
+        .card-body p {
+            color: var(--gray-color);
+            margin-bottom: 15px;
+        }
+
+        .card-stats {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 1rem;
+            margin-bottom: 15px;
         }
 
         .stat {
             text-align: center;
         }
 
-        .stat i {
-            color: var(--primary-color);
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        /* Секция режимов игры */
-        .game-modes {
-            background-color: #f0f4f8;
-        }
-
-        .modes-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .mode-card {
-            background-color: var(--card-bg);
-            border-radius: 15px;
-            padding: 2rem;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            text-align: center;
-        }
-
-        .mode-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
-
-        .mode-icon {
-            font-size: 3rem;
-            color: var(--primary-color);
-            margin-bottom: 1.5rem;
-        }
-
-        .mode-card h3 {
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
+        .stat-value {
+            font-weight: 700;
+            font-size: 1.2rem;
             color: var(--dark-color);
         }
 
-        /* Секция с особенностями */
-        .features-list {
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--gray-color);
+        }
+
+        /* Стратегии */
+        .strategies-section {
+            padding: 60px 0;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 40px;
+        }
+
+        .strategy-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tab-btn {
+            padding: 10px 25px;
+            background-color: white;
+            border: 2px solid #ddd;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .tab-content {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .tab-pane {
+            display: none;
+        }
+
+        .tab-pane.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .strategy-content {
             display: flex;
             flex-direction: column;
-            gap: 2rem;
-            max-width: 800px;
-            margin: 0 auto;
+            gap: 20px;
         }
 
-        .feature-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 1.5rem;
-        }
-
-        .feature-icon {
-            background-color: var(--primary-color);
-            color: var(--text-light);
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            flex-shrink: 0;
-        }
-
-        .feature-text h3 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
+        .strategy-content h3 {
             color: var(--dark-color);
+            font-size: 1.8rem;
+            margin-bottom: 10px;
         }
 
-        /* Секция призыва к действию */
-        .cta {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: var(--text-light);
-            text-align: center;
-        }
-
-        .cta-content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .cta h2 {
-            font-size: 3rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .cta p {
-            font-size: 1.4rem;
-            margin-bottom: 2.5rem;
-            opacity: 0.9;
-        }
-
-        .platforms {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-top: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .platform-btn {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            background-color: rgba(255, 255, 255, 0.15);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            color: var(--text-light);
-            padding: 1rem 2rem;
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: 500;
-            transition: var(--transition);
-        }
-
-        .platform-btn:hover {
-            background-color: rgba(255, 255, 255, 0.25);
-            transform: translateY(-5px);
-        }
-
-        /* Футер */
+        /* Подвал */
         footer {
             background-color: var(--dark-color);
-            color: var(--text-light);
-            padding: 3rem 2rem;
-            text-align: center;
+            color: white;
+            padding: 50px 0 20px;
+            margin-top: 40px;
         }
 
         .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 30px;
         }
 
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin: 2rem 0;
-            flex-wrap: wrap;
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: var(--secondary-color);
         }
 
-        .footer-links a {
-            color: var(--text-light);
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column a {
+            color: #ccc;
             text-decoration: none;
-            transition: var(--transition);
+            transition: color 0.3s;
         }
 
-        .footer-links a:hover {
-            color: var(--primary-color);
+        .footer-column a:hover {
+            color: var(--secondary-color);
         }
 
         .social-icons {
             display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin: 2rem 0;
+            gap: 15px;
+            margin-top: 20px;
         }
 
         .social-icons a {
-            color: var(--text-light);
-            font-size: 1.5rem;
-            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
         }
 
         .social-icons a:hover {
-            color: var(--primary-color);
+            background-color: var(--secondary-color);
             transform: translateY(-5px);
         }
 
         .copyright {
-            margin-top: 2rem;
-            padding-top: 2rem;
+            text-align: center;
+            padding-top: 20px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.7);
+            color: #aaa;
+            font-size: 0.9rem;
         }
 
         /* Адаптивность */
         @media (max-width: 992px) {
-            .hero h1 {
-                font-size: 2.8rem;
+            .hero h2 {
+                font-size: 2.5rem;
             }
             
             .section-title h2 {
-                font-size: 2.4rem;
-            }
-            
-            .brawlers-grid {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                font-size: 2rem;
             }
         }
 
         @media (max-width: 768px) {
-            .nav-links {
-                display: none;
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            nav ul {
+                gap: 15px;
+            }
+            
+            .hero h2 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
             }
             
             .mobile-menu-btn {
                 display: block;
+                position: absolute;
+                top: 20px;
+                right: 20px;
             }
             
-            .hero h1 {
-                font-size: 2.3rem;
+            .mobile-menu {
+                display: none;
+                width: 100%;
+                margin-top: 15px;
             }
             
-            .hero p {
-                font-size: 1.2rem;
+            .mobile-menu.active {
+                display: block;
             }
             
-            .hero-btns {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .section-title h2 {
-                font-size: 2rem;
-            }
-            
-            .feature-item {
+            .mobile-menu ul {
                 flex-direction: column;
                 text-align: center;
-                align-items: center;
-            }
-            
-            .cta h2 {
-                font-size: 2.2rem;
+                gap: 10px;
             }
         }
 
         @media (max-width: 576px) {
-            section {
-                padding: 100px 1rem 2rem;
-            }
-            
-            .hero h1 {
-                font-size: 2rem;
-            }
-            
-            .brawlers-grid {
+            .cards-grid {
                 grid-template-columns: 1fr;
             }
             
-            .modes-container {
-                grid-template-columns: 1fr;
+            .strategy-tabs {
+                flex-direction: column;
+            }
+            
+            .tab-btn {
+                width: 100%;
+                text-align: center;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Навигация -->
+    <!-- Шапка -->
     <header>
-        <nav class="nav-container">
-            <a href="#" class="logo">
-                <i class="fas fa-fire"></i>
-                BRAWL STARS
-            </a>
-            
-            <ul class="nav-links">
-                <li><a href="#home">Главная</a></li>
-                <li><a href="#brawlers">Бравлеры</a></li>
-                <li><a href="#modes">Режимы</a></li>
-                <li><a href="#features">Особенности</a></li>
-                <li><a href="#download">Скачать</a></li>
-            </ul>
-            
-            <button class="mobile-menu-btn">
-                <i class="fas fa-bars"></i>
-            </button>
-            
-            <a href="#download" class="download-btn">Играть бесплатно</a>
-        </nav>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-crown"></i>
+                    <h1>Clash <span>Royale</span></h1>
+                </div>
+                
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <nav class="desktop-menu">
+                    <ul>
+                        <li><a href="#home" class="active">Главная</a></li>
+                        <li><a href="#cards">Карты</a></li>
+                        <li><a href="#strategies">Стратегии</a></li>
+                        <li><a href="#about">О игре</a></li>
+                    </ul>
+                </nav>
+                
+                <nav class="mobile-menu" id="mobileMenu">
+                    <ul>
+                        <li><a href="#home" class="active">Главная</a></li>
+                        <li><a href="#cards">Карты</a></li>
+                        <li><a href="#strategies">Стратегии</a></li>
+                        <li><a href="#about">О игре</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
     </header>
 
     <!-- Главный баннер -->
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <h1>Эпические битвы в реальном времени!</h1>
-            <p>Присоединяйтесь к миллионам игроков по всему миру в быстрых и динамичных сражениях 3 на 3. Собирайте уникальных бравлеров, прокачивайте их и открывайте новые способности!</p>
-            <div class="hero-btns">
-                <a href="#download" class="download-btn">Начать игру</a>
-                <a href="#features" class="watch-trailer">
-                    <i class="fas fa-play-circle"></i> Смотреть трейлер
-                </a>
+    <section class="hero" id="home">
+        <div class="container">
+            <h2>Королевская битва в мире Clash</h2>
+            <p>Откройте для себя стратегии, карты и тактики, которые помогут вам достичь легендарной арены. Сражайтесь в реальном времени против игроков со всего мира и докажите свое мастерство!</p>
+            <a href="#strategies" class="btn">Узнать стратегии</a>
+        </div>
+    </section>
+
+    <!-- Раздел с картами -->
+    <section class="cards-section" id="cards">
+        <div class="container">
+            <div class="section-title">
+                <h2>Популярные карты</h2>
+            </div>
+            
+            <div class="cards-grid" id="cardsContainer">
+                <!-- Карты будут добавлены через JavaScript -->
             </div>
         </div>
     </section>
 
-    <!-- Секция с бравлерами -->
-    <section id="brawlers">
-        <div class="section-title">
-            <h2>Популярные бравлеры</h2>
-            <p>Соберите коллекцию уникальных персонажей, каждый со своими способностями и стилем игры</p>
-        </div>
-        
-        <div class="brawlers-grid">
-            <!-- Карточка бравлера 1 -->
-            <div class="brawler-card">
-                <div class="brawler-img" style="background-image: url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');"></div>
-                <div class="brawler-info">
-                    <h3>Шелли</h3>
-                    <span class="brawler-type">Начальный</span>
-                    <p class="brawler-description">Ближний боец с дробовиком, идеально подходит для новичков. Её супер способность отталкивает врагов.</p>
-                    <div class="brawler-stats">
-                        <div class="stat">
-                            <i class="fas fa-heart"></i>
-                            <div>3800</div>
-                        </div>
-                        <div class="stat">
-                            <i class="fas fa-bolt"></i>
-                            <div>5/10</div>
-                        </div>
-                        <div class="stat">
-                            <i class="fas fa-shield-alt"></i>
-                            <div>Средняя</div>
-                        </div>
+    <!-- Раздел со стратегиями -->
+    <section class="strategies-section" id="strategies">
+        <div class="container">
+            <div class="section-title">
+                <h2>Стратегии игры</h2>
+            </div>
+            
+            <div class="strategy-tabs">
+                <button class="tab-btn active" data-tab="beginner">Для начинающих</button>
+                <button class="tab-btn" data-tab="advanced">Продвинутые</button>
+                <button class="tab-btn" data-tab="arena">Стратегии арены</button>
+                <button class="tab-btn" data-tab="deck">Сборка колоды</button>
+            </div>
+            
+            <div class="tab-content">
+                <div class="tab-pane active" id="beginner">
+                    <div class="strategy-content">
+                        <h3>Основы для новичков</h3>
+                        <p>Начните с понимания эликсира - вашего основного ресурса. Он восстанавливается со временем, поэтому важно рассчитывать свои ходы.</p>
+                        <p>Сосредоточьтесь на защите своих башен и атакуйте, когда у вас есть преимущество в эликсире или картах.</p>
+                        <p>Изучите все карты в своей колоде и их взаимодействие с картами противника.</p>
+                        <p>Не тратьте эликсир без необходимости, особенно в начале матча.</p>
                     </div>
                 </div>
-            </div>
-            
-            <!-- Карточка бравлера 2 -->
-            <div class="brawler-card">
-                <div class="brawler-img" style="background-image: url('https://images.unsplash.com/photo-1511512578047-dfb367046420?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');"></div>
-                <div class="brawler-info">
-                    <h3>Кольт</h3>
-                    <span class="brawler-type">Редкий</span>
-                    <p class="brawler-description">Стрелок с двумя пистолетами, который наносит огромный урон на средней дистанции.</p>
-                    <div class="brawler-stats">
-                        <div class="stat">
-                            <i class="fas fa-heart"></i>
-                            <div>3200</div>
-                        </div>
-                        <div class="stat">
-                            <i class="fas fa-bolt"></i>
-                            <div>8/10</div>
-                        </div>
-                        <div class="stat">
-                            <i class="fas fa-shield-alt"></i>
-                            <div>Низкая</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Карточка бравлера 3 -->
-            <div class="brawler-card">
-                <div class="brawler-img" style="background-image: url('https://images.unsplash.com/photo-1534423861386-85a16f5d13fd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');"></div>
-                <div class="brawler-info">
-                    <h3>Эль Примо</h3>
-                    <span class="brawler-type">Эпический</span>
-                    <p class="brawler-description">Танк-рестлер с огромным запасом здоровья. Его супер способность позволяет совершать прыжки.</p>
-                    <div class="brawler-stats">
-                        <div class="stat">
-                            <i class="fas fa-heart"></i>
-                            <div>5800</div>
-                        </div>
-                        <div class="stat">
-                            <i class="fas fa-bolt"></i>
-                            <div>3/10</div>
-                        </div>
-                        <div class="stat">
-                            <i class="fas fa-shield-alt"></i>
-                            <div>Высокая</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Секция режимов игры -->
-    <section id="modes" class="game-modes">
-        <div class="section-title">
-            <h2>Режимы игры</h2>
-            <p>Разнообразные игровые режимы, которые не дадут заскучать</p>
-        </div>
-        
-        <div class="modes-container">
-            <div class="mode-card">
-                <div class="mode-icon">
-                    <i class="fas fa-gem"></i>
-                </div>
-                <h3>Захват кристаллов</h3>
-                <p>Собирайте кристаллы в центре карты и удерживайте их 15 секунд, чтобы победить. Работа в команде - залог успеха!</p>
-            </div>
-            
-            <div class="mode-card">
-                <div class="mode-icon">
-                    <i class="fas fa-futbol"></i>
-                </div>
-                <h3>Броулбол</h3>
-                <p>Футбол в мире Brawl Stars! Забейте 2 гола в ворота противников, чтобы победить. Используйте свои способности, чтобы перехватить мяч.</p>
-            </div>
-            
-            <div class="mode-card">
-                <div class="mode-icon">
-                    <i class="fas fa-skull"></i>
-                </div>
-                <h3>Одиночное столкновение</h3>
-                <p>Королевская битва на 10 игроков. Последний выживший побеждает. Собирайте кубы мощности, чтобы усилиться.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Секция особенностей -->
-    <section id="features">
-        <div class="section-title">
-            <h2>Почему Brawl Stars?</h2>
-            <p>Уникальные особенности, которые делают игру одной из лучших мобильных игр</p>
-        </div>
-        
-        <div class="features-list">
-            <div class="feature-item">
-                <div class="feature-icon">
-                    <i class="fas fa-trophy"></i>
-                </div>
-                <div class="feature-text">
-                    <h3>Регулярные турниры</h3>
-                    <p>Участвуйте в еженедельных событиях и турнирах, чтобы получать уникальные награды и подниматься в рейтингах.</p>
-                </div>
-            </div>
-            
-            <div class="feature-item">
-                <div class="feature-icon">
-                    <i class="fas fa-users"></i>
-                </div>
-                <div class="feature-text">
-                    <h3>Игра с друзьями</h3>
-                    <p>Создавайте клубы, объединяйтесь с друзьями и сражайтесь вместе в захватывающих командных битвах.</p>
-                </div>
-            </div>
-            
-            <div class="feature-item">
-                <div class="feature-icon">
-                    <i class="fas fa-sync-alt"></i>
-                </div>
-                <div class="feature-text">
-                    <h3>Постоянные обновления</h3>
-                    <p>Новые бравлеры, карты, режимы и события появляются каждый месяц. Игра никогда не стоит на месте!</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Секция призыва к действию -->
-    <section id="download" class="cta">
-        <div class="cta-content">
-            <h2>Присоединяйтесь к битве!</h2>
-            <p>Скачайте Brawl Stars бесплатно и начните свой путь к вершинам рейтинга уже сегодня. Миллионы игроков ждут вас!</p>
-            <a href="#download" class="download-btn" style="background-color: var(--accent-color); color: var(--dark-color);">Скачать бесплатно</a>
-            
-            <div class="platforms">
-                <a href="#" class="platform-btn">
-                    <i class="fab fa-google-play"></i>
-                    <div>
-                        <div style="font-size: 0.8rem;">Доступно в</div>
-                        <div style="font-weight: 700;">Google Play</div>
-                    </div>
-                </a>
                 
-                <a href="#" class="platform-btn">
-                    <i class="fab fa-app-store"></i>
-                    <div>
-                        <div style="font-size: 0.8rem;">Загрузите в</div>
-                        <div style="font-weight: 700;">App Store</div>
+                <div class="tab-pane" id="advanced">
+                    <div class="strategy-content">
+                        <h3>Продвинутые техники</h3>
+                        <p><strong>Циклирование карт:</strong> умение быстро менять карты в руке для получения нужной в конкретной ситуации.</p>
+                        <p><strong>Агро-механика:</strong> привлечение вражеских войск в область действия своих оборонительных сооружений.</p>
+                        <p><strong>Предугадывание ходов противника:</strong> анализ колоды оппонента и предсказание его следующих действий.</p>
+                        <p><strong>Управление эликсиром:</strong> не только экономия, но и создание моментов, когда у вас значительное преимущество в ресурсах.</p>
                     </div>
-                </a>
+                </div>
+                
+                <div class="tab-pane" id="arena">
+                    <div class="strategy-content">
+                        <h3>Стратегии для разных арен</h3>
+                        <p><strong>Низкие арены (1-4):</strong> сосредоточьтесь на простых колодах с понятным взаимодействием карт. Изучите основы размещения войск.</p>
+                        <p><strong>Средние арены (5-10):</strong> начинайте использовать более сложные комбинации карт. Учитесь предугадывать ходы противника.</p>
+                        <p><strong>Высокие арены (11+):</strong> совершенствуйте свои навыки, изучайте мету и адаптируйте свою колоду под текущие тенденции.</p>
+                        <p><strong>Легендарная арена:</strong> здесь важны каждая деталь и микро-управление. Изучайте профессиональные матчи для улучшения своих навыков.</p>
+                    </div>
+                </div>
+                
+                <div class="tab-pane" id="deck">
+                    <div class="strategy-content">
+                        <h3>Сборка эффективной колоды</h3>
+                        <p>Хорошая колода должна содержать:</p>
+                        <ul>
+                            <li>Карты для защиты (танки, здания)</li>
+                            <li>Карты для атаки (дальнобойные, заклинания)</li>
+                            <li>Универсальные карты, которые могут использоваться и для защиты, и для атаки</li>
+                            <li>Баланс по стоимости эликсира (средняя стоимость 3.5-4.2 идеальна для большинства колод)</li>
+                        </ul>
+                        <p>Экспериментируйте с разными комбинациями карт, но старайтесь придерживаться определенной стратегии (контроль, агрессия, оборона и контратака).</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Футер -->
-    <footer>
-        <div class="footer-content">
-            <a href="#" class="logo">
-                <i class="fas fa-fire"></i>
-                BRAWL STARS
-            </a>
-            
-            <div class="footer-links">
-                <a href="#home">Главная</a>
-                <a href="#brawlers">Бравлеры</a>
-                <a href="#modes">Режимы</a>
-                <a href="#features">Особенности</a>
-                <a href="#download">Скачать</a>
-                <a href="#">Поддержка</a>
-                <a href="#">Политика конфиденциальности</a>
-            </div>
-            
-            <div class="social-icons">
-                <a href="#"><i class="fab fa-youtube"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
-                <a href="#"><i class="fab fa-facebook"></i></a>
-                <a href="#"><i class="fab fa-discord"></i></a>
+    <!-- Подвал -->
+    <footer id="about">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Clash Royale</h3>
+                    <p>Королевская битва в реальном времени от создателей Clash of Clans. Сражайтесь против игроков со всего мира, чтобы подняться в рейтинге и стать королем арены.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-discord"></i></a>
+                        <a href="#"><i class="fab fa-reddit"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Разделы сайта</h3>
+                    <ul>
+                        <li><a href="#home">Главная</a></li>
+                        <li><a href="#cards">Карты</a></li>
+                        <li><a href="#strategies">Стратегии</a></li>
+                        <li><a href="#about">О игре</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Типы карт</h3>
+                    <ul>
+                        <li><a href="#">Войска</a></li>
+                        <li><a href="#">Здания</a></li>
+                        <li><a href="#">Заклинания</a></li>
+                        <li><a href="#">Легендарные</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Ресурсы</h3>
+                    <ul>
+                        <li><a href="#">Официальный сайт</a></li>
+                        <li><a href="#">База знаний</a></li>
+                        <li><a href="#">Обновления</a></li>
+                        <li><a href="#">Сообщество</a></li>
+                    </ul>
+                </div>
             </div>
             
             <div class="copyright">
-                <p>© 2023 Brawl Stars. Все права защищены. Это демонстрационный сайт, созданный в учебных целях.</p>
-                <p>Brawl Stars является зарегистрированной торговой маркой Supercell.</p>
+                <p>© 2023 Фан-сайт Clash Royale. Все права на игру принадлежат Supercell. Сайт создан в образовательных целях.</p>
             </div>
         </div>
     </footer>
 
     <script>
+        // Данные о картах
+        const cardsData = [
+            {
+                name: "Мега Рыцарь",
+                elixir: 7,
+                type: "Войско",
+                description: "Мощный танк, который прыгает на врагов при развертывании, нанося урон по области.",
+                damage: 480,
+                health: 3300,
+                target: "Наземный/Воздушный"
+            },
+            {
+                name: "Ведьма",
+                elixir: 5,
+                type: "Войско",
+                description: "Дальнобойный боец, который призывает скелетов и атакует воздушные и наземные цели.",
+                damage: 160,
+                health: 700,
+                target: "Наземный/Воздушный"
+            },
+            {
+                name: "Принцесса",
+                elixir: 3,
+                type: "Войско",
+                description: "Дальнобойный боец, атакует область на большом расстоянии. Идеальна против скоплений войск.",
+                damage: 280,
+                health: 260,
+                target: "Наземный/Воздушный"
+            },
+            {
+                name: "Лог",
+                elixir: 2,
+                type: "Заклинание",
+                description: "Катящееся бревно, которое отталкивает врагов и наносит урон по пути. Эффективно против легких войск.",
+                damage: 240,
+                health: "N/A",
+                target: "Наземный"
+            },
+            {
+                name: "П.E.K.K.A.",
+                elixir: 7,
+                type: "Войско",
+                description: "Медленный, но невероятно мощный боец, наносящий огромный урон одиночным целям.",
+                damage: 1100,
+                health: 3300,
+                target: "Наземный"
+            },
+            {
+                name: "Огненный шар",
+                elixir: 4,
+                type: "Заклинание",
+                description: "Наносит значительный урон по области. Эффективен против скоплений войск и некоторых зданий.",
+                damage: 572,
+                health: "N/A",
+                target: "Наземный/Воздушный"
+            }
+        ];
+
+        // Функция для отображения карт
+        function renderCards() {
+            const container = document.getElementById('cardsContainer');
+            container.innerHTML = '';
+            
+            cardsData.forEach(card => {
+                const cardElement = document.createElement('div');
+                cardElement.className = 'card-item';
+                
+                cardElement.innerHTML = `
+                    <div class="card-header">
+                        <h3>${card.name}</h3>
+                        <div class="elixir">${card.elixir} эликсира</div>
+                    </div>
+                    <div class="card-body">
+                        <p>${card.description}</p>
+                        <div class="card-stats">
+                            <div class="stat">
+                                <div class="stat-value">${card.damage}</div>
+                                <div class="stat-label">Урон</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">${card.health}</div>
+                                <div class="stat-label">Здоровье</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value">${card.target}</div>
+                                <div class="stat-label">Цель</div>
+                            </div>
+                        </div>
+                        <div class="card-type">Тип: ${card.type}</div>
+                    </div>
+                `;
+                
+                container.appendChild(cardElement);
+            });
+        }
+
+        // Функция для работы с вкладками
+        function setupTabs() {
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabPanes = document.querySelectorAll('.tab-pane');
+            
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Убираем активный класс у всех кнопок и панелей
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    tabPanes.forEach(pane => pane.classList.remove('active'));
+                    
+                    // Добавляем активный класс к текущей кнопке
+                    btn.classList.add('active');
+                    
+                    // Находим и показываем соответствующую панель
+                    const tabId = btn.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+        }
+
         // Мобильное меню
-        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-        const navLinks = document.querySelector('.nav-links');
-        
-        mobileMenuBtn.addEventListener('click', () => {
-            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
-            if (navLinks.style.display === 'flex') {
-                navLinks.style.flexDirection = 'column';
-                navLinks.style.position = 'absolute';
-                navLinks.style.top = '100%';
-                navLinks.style.left = '0';
-                navLinks.style.width = '100%';
-                navLinks.style.backgroundColor = 'var(--dark-color)';
-                navLinks.style.padding = '1rem 0';
-                navLinks.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.2)';
-            }
-        });
-        
-        // Закрытие меню при клике на ссылку
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                if (window.innerWidth <= 768) {
-                    navLinks.style.display = 'none';
-                }
+        function setupMobileMenu() {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('active');
+                mobileMenuBtn.innerHTML = mobileMenu.classList.contains('active') 
+                    ? '<i class="fas fa-times"></i>' 
+                    : '<i class="fas fa-bars"></i>';
             });
-        });
-        
-        // Изменение прозрачности навигации при прокрутке
-        window.addEventListener('scroll', () => {
-            const header = document.querySelector('header');
-            if (window.scrollY > 100) {
-                header.style.backgroundColor = 'rgba(26, 26, 46, 0.98)';
-            } else {
-                header.style.backgroundColor = 'rgba(26, 26, 46, 0.95)';
-            }
-        });
-        
-        // Плавная прокрутка для всех ссылок
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
-                
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                }
+            
+            // Закрытие меню при клике на ссылку
+            const mobileLinks = mobileMenu.querySelectorAll('a');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.remove('active');
+                    mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                });
             });
+            
+            // Плавная прокрутка для всех ссылок
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if(targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if(targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        }
+
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCards();
+            setupTabs();
+            setupMobileMenu();
         });
     </script>
 </body>
